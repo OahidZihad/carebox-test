@@ -9,8 +9,13 @@ const GetData = () => {
   const [email, setEmail] = useState("");
   const [description, setDescription] = useState("");
   const [date, setDate] = useState("");
+  const [updateId, setUpdateId] = useState(null);
 
   useEffect(() => {
+    getUpdatedInfo();
+  }, []);
+
+  const getUpdatedInfo = () => {
     fetch("https://care-box-backend.herokuapp.com/api/v1/applicant_test/")
       .then((response) => response.json())
       .then((data) => {
@@ -22,8 +27,9 @@ const GetData = () => {
         setEmail(data[0].Email);
         setDescription(data[0].Description);
         setDate(data[0].Posted_At);
+        setUpdateId(data[0].id);
       });
-  }, []);
+  };
 
   const selectField = (id) => {
     let item = getItems.filter((item) => item.id === id)[0];
@@ -34,6 +40,26 @@ const GetData = () => {
     setEmail(item.Email);
     setDescription(item.Description);
     setDate(item.Posted_At);
+    setUpdateId(item.id);
+  };
+  const updateInfo = () => {
+    console.log(title, author, phone, email, description, date, updateId);
+    let item = { title, author, phone, email, description, date, updateId };
+    fetch(
+      `https://care-box-backend.herokuapp.com/api/v1/applicant_test/update_blog/${updateId}/`,
+      {
+        method: "PUT",
+        headers: {
+          "Custom-User-Agent": "gsdf#g3243F466$",
+        },
+        body: JSON.stringify(item),
+      }
+    ).then((result) => {
+      result.json().then((response) => {
+        console.log(response);
+        getUpdatedInfo();
+      });
+    });
   };
 
   return (
@@ -94,19 +120,51 @@ const GetData = () => {
       </div>
       <div className="d-flex justify-content-center">
         <div>
-          <input type="text" value={title} /> <br />
+          <input
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+          />
           <br />
-          <input type="text" value={author} /> <br />
           <br />
-          <input type="text" value={phone} /> <br />
+          <input
+            type="text"
+            value={author}
+            onChange={(e) => setAuthor(e.target.value)}
+          />{" "}
           <br />
-          <input type="email" value={email} /> <br />
           <br />
-          <input type="text" value={description} /> <br />
+          <input
+            type="text"
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
+          />{" "}
           <br />
-          <input type="datetime-local" value={date} /> <br />
           <br />
-          <button className="btn btn-dark">Update Information</button>
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />{" "}
+          <br />
+          <br />
+          <input
+            type="text"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />{" "}
+          <br />
+          <br />
+          <input
+            type="datetime-local"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />{" "}
+          <br />
+          <br />
+          <button className="btn btn-dark" onClick={updateInfo}>
+            Update Information
+          </button>
         </div>
       </div>
     </section>

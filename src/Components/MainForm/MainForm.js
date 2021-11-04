@@ -13,8 +13,11 @@ const MainForm = () => {
     console.log(data);
     fetch("https://care-box-backend.herokuapp.com/api/v1/applicant_test/", {
       method: "POST",
+      //   headers: {
+      //     "Custom-User-Agent": "gsdf#g3243F466$",
+      //   },
       headers: {
-        "Custom-User-Agent": "gsdf#g3243F466$",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(data),
     })

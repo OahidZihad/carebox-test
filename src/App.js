@@ -1,7 +1,11 @@
-import logo from "./logo.svg";
-import "./App.css";
 import MainForm from "./Components/MainForm/MainForm";
 import GetData from "./Components/GetData/GetData";
+// import firebaseConfig from "./firebase.config";
+import firebase from "firebase";
+
+if (!firebase.apps.length) {
+  // firebase.initializeApp(firebaseConfig);
+}
 
 function App() {
   return (
