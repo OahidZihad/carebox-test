@@ -11,22 +11,35 @@ const MainForm = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+
     fetch("https://care-box-backend.herokuapp.com/api/v1/applicant_test/", {
       method: "POST",
       //   headers: {
       //     "Custom-User-Agent": "gsdf#g3243F466$",
       //   },
+      // headers: {
+      //   "Content-Type": "application/json; charset=UTF-8",
+      // },
+      //   mode: "no-cors",
+      //   cache: "no-cache",
+      credentials: "same-origin",
       headers: {
-        "Content-Type": "application/json",
+        Accept: "application/json",
+        "Content-Type": "application/json; charset=utf8",
       },
       body: JSON.stringify(data),
     })
-      .then((response) => {
-        response.json();
-        console.log(response);
+      //   .then((result) => {
+      //     result.json().then((response) => {
+      //       console.log(response);
+      //     });
+      //   });
+      .then((result) => {
+        result.json();
+        console.log(result);
       })
-      .then((success) => {
-        if (success) {
+      .then((response) => {
+        if (response) {
           alert("Thanks for your information");
         }
       });
