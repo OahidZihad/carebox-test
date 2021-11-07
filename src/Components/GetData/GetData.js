@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import GetDataDetails from "./GetDataDetails";
 
 const GetData = () => {
   const [getItems, setGetItems] = useState([]);
