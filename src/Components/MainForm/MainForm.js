@@ -1,7 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { useState } from "react/cjs/react.development";
-import { postData, getData } from "../services/DataService";
 
 const MainForm = () => {
   const [info, setInfo] = useState({});

@@ -1,11 +1,12 @@
 import MainForm from "./Components/MainForm/MainForm";
 import GetData from "./Components/GetData/GetData";
 // import firebaseConfig from "./firebase.config";
-// import firebase from "firebase";
+import firebaseConfig from "./Components/firebase.config";
+import firebase from "firebase";
 
-// if (!firebase.apps.length) {
-//   // firebase.initializeApp(firebaseConfig);
-// }
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
 
 function App() {
   return (
