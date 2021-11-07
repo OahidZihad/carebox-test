@@ -3,11 +3,11 @@ import GetDataDetails from "./GetDataDetails";
 
 const GetData = () => {
   const [getItems, setGetItems] = useState([]);
-  const [title, setTitle] = useState("");
-  const [author, setAuthor] = useState("");
-  const [phone, setPhone] = useState("");
-  const [email, setEmail] = useState("");
-  const [description, setDescription] = useState("");
+  const [Title, setTitle] = useState("");
+  const [Author_Name, setAuthor_Name] = useState("");
+  const [Phone, setPhone] = useState("");
+  const [Email, setEmail] = useState("");
+  const [Description, setDescription] = useState("");
   const [date, setDate] = useState("");
   const [updateId, setUpdateId] = useState(null);
 
@@ -22,7 +22,7 @@ const GetData = () => {
         console.log(data);
         setGetItems(data);
         setTitle(data[0].Title);
-        setAuthor(data[0].Author_Name);
+        setAuthor_Name(data[0].Author_Name);
         setPhone(data[0].Phone);
         setEmail(data[0].Email);
         setDescription(data[0].Description);
@@ -35,7 +35,7 @@ const GetData = () => {
     let item = getItems.filter((item) => item.id === id)[0];
     console.log(item);
     setTitle(item.Title);
-    setAuthor(item.Author_Name);
+    setAuthor_Name(item.Author_Name);
     setPhone(item.Phone);
     setEmail(item.Email);
     setDescription(item.Description);
@@ -43,8 +43,23 @@ const GetData = () => {
     setUpdateId(item.id);
   };
   const updateInfo = () => {
-    console.log(title, author, phone, email, description, date, updateId);
-    let item = { title, author, phone, email, description, date, updateId };
+    let item = {
+      Title,
+      Author_Name,
+      Phone,
+      Email,
+      Description,
+      date,
+      updateId,
+    };
+    console.log(item);
+    const formData = new FormData();
+    formData.append("Title", Title);
+    formData.append("Author_Name", Author_Name);
+    formData.append("Phone", Phone);
+    formData.append("Email", Email);
+    formData.append("Description", Description);
+    console.log("formData", formData);
     fetch(
       `https://care-box-backend.herokuapp.com/api/v1/applicant_test/update_blog/${updateId}/`,
       {
@@ -52,11 +67,11 @@ const GetData = () => {
         headers: {
           "Custom-User-Agent": "gsdf#g3243F466$",
         },
-        body: JSON.stringify(item),
+        body: formData,
       }
     ).then((result) => {
       result.json().then((response) => {
-        console.log(response);
+        console.log(result, response);
         getUpdatedInfo();
       });
     });
@@ -122,35 +137,35 @@ const GetData = () => {
         <div>
           <input
             type="text"
-            value={title}
+            value={Title}
             onChange={(e) => setTitle(e.target.value)}
           />
           <br />
           <br />
           <input
             type="text"
-            value={author}
-            onChange={(e) => setAuthor(e.target.value)}
+            value={Author_Name}
+            onChange={(e) => setAuthor_Name(e.target.value)}
           />{" "}
           <br />
           <br />
           <input
             type="text"
-            value={phone}
+            value={Phone}
             onChange={(e) => setPhone(e.target.value)}
           />{" "}
           <br />
           <br />
           <input
-            type="email"
-            value={email}
+            type="Email"
+            value={Email}
             onChange={(e) => setEmail(e.target.value)}
           />{" "}
           <br />
           <br />
           <input
             type="text"
-            value={description}
+            value={Description}
             onChange={(e) => setDescription(e.target.value)}
           />{" "}
           <br />

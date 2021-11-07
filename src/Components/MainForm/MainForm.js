@@ -1,8 +1,18 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { useState } from "react/cjs/react.development";
 import { postData, getData } from "../services/DataService";
 
 const MainForm = () => {
+  const [info, setInfo] = useState({});
+
+  const handleBlur = (e) => {
+    const newInfo = { ...info };
+    newInfo[e.target.name] = e.target.value;
+    setInfo(newInfo);
+    console.log(info);
+  };
+
   const {
     register,
     handleSubmit,
@@ -11,43 +21,22 @@ const MainForm = () => {
 
   const onSubmit = (data) => {
     console.log(data);
+    const formData = new FormData();
+    formData.append("Title", info.Title);
+    formData.append("Author_Name", info.Author_Name);
+    formData.append("Phone", info.Phone);
+    formData.append("Email", info.Email);
+    formData.append("Description", info.Description);
+    console.log("formData", formData);
 
     fetch("https://care-box-backend.herokuapp.com/api/v1/applicant_test/", {
       method: "POST",
-      //   headers: {
-      //     "Custom-User-Agent": "gsdf#g3243F466$",
-      //   },
-      // headers: {
-      //   "Content-Type": "application/json; charset=UTF-8",
-      // },
-      //   mode: "no-cors",
-      //   cache: "no-cache",
-      credentials: "same-origin",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json; charset=utf8",
-      },
-      body: JSON.stringify(data),
-    })
-      //   .then((result) => {
-      //     result.json().then((response) => {
-      //       console.log(response);
-      //     });
-      //   });
-      .then((result) => {
-        result.json();
-        console.log(result);
-      })
-      .then((response) => {
-        if (response) {
-          alert("Thanks for your information");
-        }
+      body: formData,
+    }).then((result) => {
+      result.json().then((response) => {
+        console.log(response, result);
       });
-
-    // await postData();
-
-    // const getDataa = await getData();
-    // console.log(getDataa);
+    });
   };
 
   return (
@@ -65,6 +54,7 @@ const MainForm = () => {
                 placeholder="Title"
                 className="form-control"
                 {...register("Title", { required: true })}
+                onBlur={handleBlur}
               />
               {errors.Title && (
                 <span className="text-danger">This field is required</span>
@@ -76,6 +66,7 @@ const MainForm = () => {
                 placeholder="Author_Name"
                 className="form-control"
                 {...register("Author_Name", { required: true })}
+                onBlur={handleBlur}
               />
               {errors.Author_Name && (
                 <span className="text-danger">This field is required</span>
@@ -87,6 +78,7 @@ const MainForm = () => {
                 placeholder="Phone"
                 className="form-control"
                 {...register("Phone", { required: true })}
+                onBlur={handleBlur}
               />
               {errors.Phone && (
                 <span className="text-danger">This field is required</span>
@@ -98,6 +90,7 @@ const MainForm = () => {
                 placeholder="Email"
                 className="form-control"
                 {...register("Email", { required: true })}
+                onBlur={handleBlur}
               />
               {errors.Email && (
                 <span className="text-danger">This field is required</span>
@@ -110,24 +103,12 @@ const MainForm = () => {
                 placeholder="Description"
                 rows="3"
                 {...register("Description", { required: true })}
+                onBlur={handleBlur}
               ></textarea>
               {errors.Description && (
                 <span className="text-danger">This field is required</span>
               )}
             </div>
-
-            {/* <div class="form-group">
-              <input
-                type="datetime-local"
-                className="form-control mb-3"
-                placeholder="Posted_At"
-                rows="3"
-                {...register("Posted_At", { required: true })}
-              ></input>
-              {errors.Posted_At && (
-                <span className="text-danger">This field is required</span>
-              )}
-            </div> */}
 
             <div className="form-group text-center">
               <button type="submit" className="btn btn-dark">
